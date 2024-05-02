@@ -1,0 +1,48 @@
+<% if(error){ %>
+<div class="alert alert-danger" role="alert"><%= error %></div>
+<% } %>
+
+<form action="/" method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="name">Product Name</label>
+    <input
+      class="form-control"
+      id="name"
+      name="name"
+      required
+      placeholder="Enter product's name"
+    />
+  </div>
+  <div class="form-group">
+    <label for="description">Product Description</label>
+    <input
+      class="form-control"
+      id="description"
+      name="description"
+      required
+      placeholder="Emter product's description"
+    />
+  </div>
+  <div class="form-group">
+    <label for="price">Product Price</label>
+    <input
+      class="form-control"
+      id="price"
+      name="price"
+      required
+      placeholder="Enter product's price"
+    />
+  </div>
+  <div class="form-group">
+    <label for="img">Product Image</label>
+    <input
+      type="file"
+      class="form-control"
+      id="img"
+      name="img"
+      accept="images/*"
+    />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Add Product</button>
+</form>
