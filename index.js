@@ -1,6 +1,7 @@
+import "./env.js";
 import express from "express";
 import session from "express-session";
-import ProductContoller from "./src/controller/productController.js";
+import ProductContoller from "./src/controller/bookController.js";
 import UserController from "./src/controller/user.controller.js";
 import path from "path";
 import ejsLayouts from "express-ejs-layouts";
@@ -36,16 +37,25 @@ server.set("views", path.join(path.resolve(), "src", "view"));
 const productC = new ProductContoller();
 const userC = new UserController();
 
+//render pages user authorization pages
 server.get("/register", userC.getRegister);
 server.get("/login", userC.getLogin);
 server.get("/logout", userC.logout);
-server.post("/register", userC.addUser);
-server.post("/login", userC.login);
 
-server.get("/", auth,setLastVisit, productC.getProduct);
+//authorization
+server.post("/register", (req, res, next) => {
+  userC.addUser(req, res, next);
+});
+server.post("/login", (req, res, next) => {
+  userC.login(req, res, next);
+});
+
+//product render
+server.get("/", auth, setLastVisit, productC.getProduct);
 server.get("/add-product", auth, productC.getaddProduct);
 server.get("/Edit-Page/:id", auth, productC.editProductLoader);
 
+//product operations
 server.post("/delete-product/:id", auth, productC.deleteProduct);
 server.post(
   "/",
@@ -55,4 +65,10 @@ server.post(
   productC.addProduct
 );
 server.post("/Edit-Page", auth, productC.editProduct);
+
+//error handling
+server.use((err, req, res, next) => {
+  //todo
+  return res.status(500).render();
+});
 export default server;
